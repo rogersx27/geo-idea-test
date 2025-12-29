@@ -49,3 +49,6 @@ def create_app() -> FastAPI:
     # app.include_router(example_router, prefix="/api/v1")
 
     return app
+
+# Crear instancia de la aplicación
+app = create_app()

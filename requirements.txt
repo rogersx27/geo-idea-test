@@ -5,9 +5,11 @@ uvicorn[standard]==0.34.0
 # Environment Variables
 python-dotenv==1.0.1
 
-# Database (descomentar si se necesita)
-# psycopg2-binary==2.9.10
-# sqlalchemy==2.0.36
+# Database - SQLAlchemy 2.0 + PostgreSQL Async
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+alembic==1.14.0
+greenlet==3.1.1  # Requerido para async en Windows
 
 # Utilities
 pydantic==2.10.5
