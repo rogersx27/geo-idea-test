@@ -59,3 +59,9 @@ htmlcov/
 *.sqlite3
 
 .claude/*
+
+# GeoJSON files (usually large)
+*.geojson
+
+# Import checkpoints
+import_checkpoint.txt

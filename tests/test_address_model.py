@@ -8,7 +8,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
-from src.modules.addresses.models import Address
+from src.modules.addresses.model import Address
 
 
 @pytest.mark.database

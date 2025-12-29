@@ -35,7 +35,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here for 'autogenerate' support
 # Importar todos los modelos aquí para que Alembic los detecte
-from src.modules.addresses.models import Address  # noqa: F401
+from src.modules.addresses.model import Address  # noqa: F401
 
 # Otros modelos se importan aquí:
 # from src.modules.users.models import User
