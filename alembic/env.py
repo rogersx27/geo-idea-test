@@ -35,8 +35,12 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here for 'autogenerate' support
 # Importar todos los modelos aquí para que Alembic los detecte
+from src.modules.addresses.models import Address  # noqa: F401
+
+# Otros modelos se importan aquí:
 # from src.modules.users.models import User
 # from src.modules.products.models import Product
+
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -77,14 +81,22 @@ def do_run_migrations(connection: Connection) -> None:
         connection: Conexión a la base de datos
     """
     # Configurar timeouts de PostgreSQL para evitar bloqueos prolongados
-    connection.execute(
-        text("SET lock_timeout = '30s'")
-    )  # Timeout para adquirir locks
-    connection.execute(
-        text("SET statement_timeout = '60s'")
-    )  # Timeout para statements individuales
+    try:
+        connection.execute(
+            text("SET lock_timeout = '30s'")
+        )  # Timeout para adquirir locks
+        connection.execute(
+            text("SET statement_timeout = '60s'")
+        )  # Timeout para statements individuales
+    except Exception as e:
+        # Si los timeouts fallan, continuar sin ellos
+        print(f"Warning: Could not set timeouts: {e}")
 
-    context.configure(connection=connection, target_metadata=target_metadata)
+    context.configure(
+        connection=connection,
+        target_metadata=target_metadata,
+        compare_type=True,
+    )
 
     with context.begin_transaction():
         context.run_migrations()
@@ -104,7 +116,7 @@ async def run_async_migrations() -> None:
         future=True,  # SQLAlchemy 2.0 style
     )
 
-    async with connectable.connect() as connection:
+    async with connectable.begin() as connection:
         await connection.run_sync(do_run_migrations)
 
     await connectable.dispose()
